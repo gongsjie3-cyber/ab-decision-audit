@@ -1,0 +1,30 @@
+{
+  "n_tests": 9744,
+  "n_arms": 45266,
+  "impressions_total": 161743720,
+  "clicks_total": 2440990,
+  "overall_ctr": 0.01509171422544257,
+  "tests_by_split": {
+    "expl": 4873,
+    "hold": 4871
+  },
+  "arms_by_split": {
+    "expl": 22666,
+    "hold": 22600
+  },
+  "mean_arms_per_test": 4.6455254515599345,
+  "median_arm_impressions": 3120.0,
+  "date_min": "2013-01-24 20:05:04",
+  "date_max": "2015-04-29 22:46:43.618000",
+  "srm_flagged_p001": 1482,
+  "srm_flagged_p001_share": 0.1520935960591133,
+  "srm_flagged_p05_share": 0.24661330049261085,
+  "median_max_dev_pp": 0.556378051169501,
+  "p99_max_dev_pp": 3.608184927320886,
+  "max_arm_share_mean": 0.23637868390394295,
+  "tests_with_dup_arms": 52,
+  "tests_all_arms_identical": 6,
+  "platform_first_place_eq_obs_best": 0.8849309377920864,
+  "platform_significance_spearman_with_ctr": 0.9366562626481003,
+  "holdout_tests_with_winner_flag": 2268
+}

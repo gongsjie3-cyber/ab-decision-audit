@@ -1,0 +1,204 @@
+{
+  "n_flagged": 1482,
+  "n_clean": 8262,
+  "tau2_clean_train": 0.06204115978323618,
+  "test_A_dispersion": [
+    {
+      "group": "被 SRM 标记",
+      "n_arms": 6135,
+      "n_tests": 1482,
+      "dof": 4653.0,
+      "ss_within": 305.54509296633285,
+      "expected_if_clean": 381.87691184507537,
+      "phi": 0.8001140773084764,
+      "implied_tau2": 0.045636298644456355,
+      "actual_coverage_95": 0.9715590700493226,
+      "mean_arm_impressions": 4111.221515892421
+    },
+    {
+      "group": "通过 SRM 检验",
+      "n_arms": 39131,
+      "n_tests": 8262,
+      "dof": 30869.0,
+      "ss_within": 3198.5492458072013,
+      "expected_if_clean": 3125.8007063330424,
+      "phi": 1.0232735693375352,
+      "implied_tau2": 0.06439784576186067,
+      "actual_coverage_95": 0.947321467787632,
+      "mean_arm_impressions": 3488.8292146891213
+    }
+  ],
+  "test_B_effect_size_by_period": [
+    {
+      "period": "前期(<2013-06-25)",
+      "n_tests": 686,
+      "n_arms": 2685,
+      "implied_tau2": 0.07214910452455553,
+      "flag_rate": 0.021865889212827987,
+      "mean_impressions_per_arm": 3181.500186219739,
+      "period_label": "前期\n(<2013-06-25)"
+    },
+    {
+      "period": "后期(>2014-01-10)",
+      "n_tests": 6961,
+      "n_arms": 34050,
+      "implied_tau2": 0.06536832822471275,
+      "flag_rate": 0.0022985203275391465,
+      "mean_impressions_per_arm": 3513.9803524229073,
+      "period_label": "后期\n(>2014-01-10)"
+    },
+    {
+      "period": "故障窗口内(2013-06-25~2014-01-10)",
+      "n_tests": 2097,
+      "n_arms": 8531,
+      "implied_tau2": 0.04433542045254922,
+      "flag_rate": 0.6919408679065332,
+      "mean_impressions_per_arm": 3932.7582932833197,
+      "period_label": "故障窗口内\n(2013-06-25~2014-01-10)"
+    }
+  ],
+  "test_C_dose_response": [
+    {
+      "cramer_v_bin": "[0,0.01)",
+      "n_pairs": 38,
+      "cov": 0.0023120524072818226,
+      "cov_ci_lo": -0.013556291033813467,
+      "cov_ci_hi": 0.021821102493426385,
+      "corr": 0.04990675800552394,
+      "tau2_within": 0.041883758895583455,
+      "transferable_share": 0.05520164541692134
+    },
+    {
+      "cramer_v_bin": "[0.01,0.02)",
+      "n_pairs": 83,
+      "cov": 0.003916875110773768,
+      "cov_ci_lo": -0.0029279040272349693,
+      "cov_ci_hi": 0.011236895425387756,
+      "corr": 0.0970409564027359,
+      "tau2_within": 0.045677298294694066,
+      "transferable_share": 0.08575102418499995
+    },
+    {
+      "cramer_v_bin": "[0.02,0.035)",
+      "n_pairs": 74,
+      "cov": 0.001149901899087252,
+      "cov_ci_lo": -0.0061455886830337715,
+      "cov_ci_hi": 0.008236950879931357,
+      "corr": 0.03183200983631347,
+      "tau2_within": 0.0349849415302625,
+      "transferable_share": 0.032868481374838644
+    },
+    {
+      "cramer_v_bin": "[0.035,1.0)",
+      "n_pairs": 90,
+      "cov": 0.00863145217674374,
+      "cov_ci_lo": 0.00109662035083283,
+      "cov_ci_hi": 0.01584938752834908,
+      "corr": 0.2387409134129416,
+      "tau2_within": 0.004291383583097252,
+      "transferable_share": 2.011344828446703
+    }
+  ],
+  "test_C_dose_response_headline": [
+    {
+      "cramer_v_bin": "[0,0.01)",
+      "n_pairs": 2224,
+      "cov": 0.005600997023473863,
+      "corr": 0.12171974947858699
+    },
+    {
+      "cramer_v_bin": "[0.01,0.02)",
+      "n_pairs": 1577,
+      "cov": 0.005819436862814726,
+      "corr": 0.1270511895301154
+    },
+    {
+      "cramer_v_bin": "[0.02,0.035)",
+      "n_pairs": 547,
+      "cov": 0.004327207605592242,
+      "corr": 0.15225106828491697
+    },
+    {
+      "cramer_v_bin": "[0.035,1.0)",
+      "n_pairs": 464,
+      "cov": 0.005624902279417005,
+      "corr": 0.1463441787024995
+    }
+  ],
+  "test_C_regression": {
+    "pearson_r_cv_vs_product": 0.0396942282808264,
+    "p_value": 0.5044951135807862,
+    "n_pairs": 285
+  },
+  "test_D_policy_comparison": [
+    {
+      "policy": "P1 照旧分析\n（失衡实验）",
+      "n_tests": 729,
+      "deploy_rate": 1.0,
+      "mean_regret_of_deployed_pp": 0.07408352419590443,
+      "median_pbest_of_deployed": 0.6795,
+      "share_deployed_pbest_lt_50": 0.2139917695473251,
+      "reject_rate_at_kappa80": 0.6694101508916324,
+      "mean_effective_regret_pp": 0.07408352419590443
+    },
+    {
+      "policy": "P3 稳健校正\n(v×1.5)",
+      "n_tests": 729,
+      "deploy_rate": 1.0,
+      "mean_regret_of_deployed_pp": 0.1041434624166151,
+      "median_pbest_of_deployed": 0.6055,
+      "share_deployed_pbest_lt_50": 0.2908093278463649,
+      "reject_rate_at_kappa80": 0.7530864197530864,
+      "mean_effective_regret_pp": 0.1041434624166151
+    },
+    {
+      "policy": "P2 检测即丢弃",
+      "n_tests": 729,
+      "deploy_rate": 0.0,
+      "mean_regret_of_deployed_pp": NaN,
+      "median_pbest_of_deployed": NaN,
+      "share_deployed_pbest_lt_50": NaN,
+      "reject_rate_at_kappa80": 1.0,
+      "mean_effective_regret_pp": 0.4854374929604368
+    },
+    {
+      "policy": "（对照）\n未失衡实验 P1",
+      "n_tests": 4142,
+      "deploy_rate": 1.0,
+      "mean_regret_of_deployed_pp": 0.06387990266718849,
+      "median_pbest_of_deployed": 0.6105,
+      "share_deployed_pbest_lt_50": 0.2967165620473201,
+      "reject_rate_at_kappa80": 0.751086431675519,
+      "mean_effective_regret_pp": 0.06387990266718849
+    }
+  ],
+  "test_D_regret_diff_flagged_vs_clean": {
+    "delta_pp": 0.010203621528715942,
+    "ci_pp": [
+      0.0036547618529654273,
+      0.017798599572584815
+    ],
+    "p_two_sided_approx": 0.0
+  },
+  "cost_accounting": {
+    "flagged_tests": 1482,
+    "flagged_tests_share": 0.1520935960591133,
+    "clean_tests": 8262,
+    "clean_tests_share": 0.8479064039408867,
+    "flagged_impressions": 25222344,
+    "flagged_impression_share": 0.15594017498793772,
+    "p2_forgone_tests": 1482,
+    "p2_forgone_impressions": 25222344,
+    "p3_choice_change_rate": 0.0013717421124828531,
+    "p3_deploy_rate": 1.0,
+    "p1_mean_regret_pp": 0.07408352419590443,
+    "p3_mean_regret_pp": 0.1041434624166151,
+    "p2_mean_regret_pp": 0.4854374929604368,
+    "p1_vs_p3_regret_delta_pp": 0.030059938220710666
+  },
+  "phi_flagged": 0.8001140773084764,
+  "phi_conservative_used": 1.5,
+  "kappa": 0.8,
+  "alpha_srm": 0.001,
+  "verdict": "四项检验均未检出失衡实验存在实质性统计危害；丢弃政策的代价远大于收益。"
+}

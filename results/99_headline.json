@@ -1,0 +1,204 @@
+{
+  "data": {
+    "n_tests": 9744,
+    "n_arms": 45266,
+    "impressions": 161743720,
+    "clicks": 2440990,
+    "overall_ctr": 0.01509171422544257,
+    "date_range": [
+      "2013-01-24 20:05:04",
+      "2015-04-29 22:46:43.618000"
+    ],
+    "splits": {
+      "expl": 4873,
+      "hold": 4871
+    }
+  },
+  "audit": {
+    "srm_flag_rate_p001": 0.1520935960591133,
+    "flag_rate_inside_official_window": 0.6919408679065332,
+    "flag_rate_outside_official_window": 0.004053877337517981,
+    "detected_window": [
+      "2013-06-24",
+      "2014-01-12"
+    ],
+    "official_window": [
+      "2013-06-25",
+      "2014-01-10"
+    ],
+    "precision_vs_official": 0.9854323308270677,
+    "recall_vs_official": 1.0,
+    "hour_sd_inside": 0.14343432434040193,
+    "hour_sd_outside": 0.0046364631209406485
+  },
+  "effects": {
+    "tau2": 0.0519467526408759,
+    "tau2_estimates": {
+      "contrast_moment_unbiased": 0.06194028484926333,
+      "dl_moment": 0.04336512704582031,
+      "reml_used_in_model": 0.0519467526408759
+    },
+    "true_ctr_q05": 0.010421880731900436,
+    "true_ctr_q95": 0.021792724886002767,
+    "true_ctr_cv_pct": 22.70090333651755,
+    "signal_share_logit": 0.6279062678391352,
+    "signal_share_ctr": 0.6898718675994399,
+    "noise_benchmark_ratio": 1.6287840514188525,
+    "observed_spread_median": 0.00660909942943645,
+    "noise_spread_median": 0.004807692307692308,
+    "power_median_for_20pct": 0.15499794144016338,
+    "share_power_ge80_for_20pct": 0.001642204659755722,
+    "median_mde_rel": 0.5981247161636222,
+    "loo_coverage_95": 0.9407762818676597,
+    "loo_coverage_90": 0.898166714408479,
+    "selection_accuracy_k4": 0.6984
+  },
+  "winners_curse": {
+    "naive_lift": 0.32556970215419967,
+    "honest_lift": 0.24235690641606122,
+    "oracle_lift": 0.2944129839699955,
+    "lift_overstatement_pp": 8.321279573813845,
+    "observed_to_honest_overstatement_pct": 0.04425172240080122,
+    "capture_rate_all": 0.8231868824126335,
+    "mean_regret_r1": 0.0006516989844941022
+  },
+  "transferability": {
+    "tau2_within_subsample": 0.03168575497805855,
+    "tau2_transferable": 0.004918331688336267,
+    "transferable_share": 0.15522217134299204,
+    "transfer_ci": [
+      0.00039157221162869913,
+      0.009669709573905748
+    ],
+    "corr_replication": 0.12640211361632459,
+    "slope_optimal": 0.14250000000000002,
+    "slope_model": 0.7484215922354985,
+    "mse_raw": 0.08070242190880278,
+    "mse_zero": 0.03338494069341441,
+    "mse_model_B": 0.05821082462175517,
+    "mse_optimal_B": 0.03202982232856407,
+    "per_design": {
+      "package": {
+        "tau2_within_subsample": 0.03168575497805855,
+        "n_tests_involved": 448,
+        "cov": 0.004918331688336267,
+        "cov_ci": [
+          0.00039157221162869913,
+          0.009669709573905748
+        ],
+        "transferable_share": 0.15522217134299204,
+        "slope_ols": 0.10497716205241601,
+        "slope_ci": [
+          0.00911696347785011,
+          0.2072250642115738
+        ]
+      },
+      "slug": {
+        "tau2_within_subsample": 0.032786974962327506,
+        "n_tests_involved": 754,
+        "cov": 0.003491164107593805,
+        "cov_ci": [
+          0.0007310838131516289,
+          0.0063540199445830765
+        ],
+        "transferable_share": 0.10648021391437242,
+        "slope_ols": 0.0761736190510261,
+        "slope_ci": [
+          0.015499601681427251,
+          0.13841684860040396
+        ]
+      },
+      "headline": {
+        "tau2_within_subsample": 0.07336626472017771,
+        "n_tests_involved": 5588,
+        "cov": 0.005728071807853006,
+        "cov_ci": [
+          0.0041644130242116904,
+          0.0072278955859994805
+        ],
+        "transferable_share": 0.07807500940248402,
+        "slope_ols": 0.0940288447048837,
+        "slope_ci": [
+          0.06906262292434275,
+          0.11811053563727399
+        ]
+      }
+    }
+  },
+  "decisions": {
+    "n_holdout": 4871,
+    "r0_platform_regret_pp": 0.07783699558882538,
+    "r0_capture": 0.7898416870801663,
+    "r1_regret_pp": 0.06542310942449714,
+    "r1_capture": 0.8233589285067949,
+    "r3_regret_pp": 0.06542326786111888,
+    "r3_capture": 0.8233585007311226,
+    "r1_r3_same_choice": 0.9983576267706836,
+    "r2_reject_rate": 0.8472592896735783,
+    "r2_median_pbest_of_deployers": 0.967,
+    "pbest_median": 0.6201666666666666,
+    "share_pbest_lt_50": 0.2865941285157052,
+    "share_pbest_lt_80": 0.7392732498460275,
+    "max_gain_pp": 0.3703731463552281,
+    "tau2_sensitivity_same_choice_min": 0.998
+  },
+  "confirmatory_oos": {
+    "n_tests": 22741,
+    "n_arms": 105549,
+    "impressions": 376529123,
+    "detected_window": [
+      "2013-06-24",
+      "2014-01-12"
+    ],
+    "precision_vs_official": 0.9880445795339412,
+    "recall_vs_official": 1.0,
+    "flag_rate_oos": 0.1552262433490172,
+    "loo_coverage_95": 0.9413199426111908,
+    "tau2_reestimated": 0.052838073738408424,
+    "naive_lift": 0.32520218973681597,
+    "honest_lift": 0.23989017647296612,
+    "oracle_lift": 0.2908265168978286,
+    "r1_regret_pp": 0.06579753304072883,
+    "r0_regret_pp": 0.07351720820399962,
+    "same_choice_r1_r3": 0.9984166080225193,
+    "share_pbest_lt_50": 0.2809641097818438,
+    "transfer_pairs": 1920,
+    "transfer_cov": 0.00438388557395743,
+    "transfer_cov_ci": [
+      0.002464918099890646,
+      0.006331793015640567
+    ],
+    "transfer_share": 0.12849929747892827,
+    "slope_optimal": 0.08386907245210065,
+    "headline_pairs": 26901,
+    "headline_slope": 0.08195467694765825,
+    "headline_slope_ci": [
+      0.07098997216069584,
+      0.09258156301517231
+    ],
+    "n_replicated": 12,
+    "n_metrics": 13
+  },
+  "quality": {
+    "n_flagged": 1482,
+    "n_clean": 8262,
+    "phi_flagged": 0.8001140773084764,
+    "phi_clean": 1.0232735693375352,
+    "coverage_flagged": 0.9715590700493226,
+    "coverage_clean": 0.947321467787632,
+    "dose_response_r": 0.0396942282808264,
+    "dose_response_p": 0.5044951135807862,
+    "flagged_impressions": 25222344,
+    "flagged_impression_share": 0.15594017498793772,
+    "p2_forgone_impressions": 25222344,
+    "p1_vs_p3_choice_change": 0.0013717421124828531,
+    "regret_diff_flagged_vs_clean": {
+      "delta_pp": 0.010203621528715942,
+      "ci_pp": [
+        0.0036547618529654273,
+        0.017798599572584815
+      ],
+      "p_two_sided_approx": 0.0
+    }
+  }
+}

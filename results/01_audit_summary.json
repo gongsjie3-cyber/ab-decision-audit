@@ -1,0 +1,94 @@
+{
+  "overall": {
+    "n_tests": 9744,
+    "flag_rate_p001": 0.1520935960591133,
+    "flag_rate_p05": 0.24661330049261085,
+    "flag_rate_fdr001": 0.13536535303776684,
+    "flag_rate_window_official": 0.6919408679065332,
+    "flag_rate_outside_official": 0.004053877337517981,
+    "cramer_v_median_flagged": 0.031407464054134054,
+    "cramer_v_median_clean": 0.0077524867261794,
+    "max_share_p99_flagged": 0.5190156174514798,
+    "max_share_p99_clean": 0.5060647013446714,
+    "max_dev_pp_median_flagged": 2.002523438148729,
+    "max_dev_pp_median_clean": 0.49485914452821606,
+    "missing_exp_in_window_share": 0.6919408679065332
+  },
+  "detected_window": {
+    "lr_stat": 5293.792148342647,
+    "start": "2013-06-24",
+    "end": "2014-01-12",
+    "n_inside": 2128,
+    "flag_inside": 0.6837406015037594,
+    "n_outside": 7616,
+    "flag_outside": 0.0035451680672268907,
+    "official_start": "2013-06-25",
+    "official_end": "2014-01-10",
+    "overlap_with_official": 0.9854323308270677,
+    "recall_of_official": 1.0
+  },
+  "hour_signature": {
+    "flag_rate_in_window_sd": 0.14343432434040193,
+    "flag_rate_out_window_sd": 0.0046364631209406485,
+    "hour_chi2_in_window": 86.08392459000257,
+    "hour_chi2_p_in_window": 3.198327862573876e-09,
+    "hour_chi2_out_window": 23.37620186571036,
+    "hour_chi2_p_out_window": 0.43899088185975466,
+    "corr_within_vs_outside": -0.09113655244883612,
+    "argmax_hour_in_window": 19,
+    "max_hour_rate_in_window": 0.7682926829268293,
+    "min_hour_rate_in_window": 0.2222222222222222
+  },
+  "quarterly": [
+    {
+      "quarter": "2013Q1",
+      "n_tests": 150,
+      "flag_rate": 0.02666666666666667
+    },
+    {
+      "quarter": "2013Q2",
+      "n_tests": 627,
+      "flag_rate": 0.11004784688995216
+    },
+    {
+      "quarter": "2013Q3",
+      "n_tests": 1066,
+      "flag_rate": 0.6210131332082551
+    },
+    {
+      "quarter": "2013Q4",
+      "n_tests": 887,
+      "flag_rate": 0.7914317925591883
+    },
+    {
+      "quarter": "2014Q1",
+      "n_tests": 955,
+      "flag_rate": 0.03664921465968586
+    },
+    {
+      "quarter": "2014Q2",
+      "n_tests": 1152,
+      "flag_rate": 0.003472222222222222
+    },
+    {
+      "quarter": "2014Q3",
+      "n_tests": 1783,
+      "flag_rate": 0.0011217049915872126
+    },
+    {
+      "quarter": "2014Q4",
+      "n_tests": 1802,
+      "flag_rate": 0.001664816870144284
+    },
+    {
+      "quarter": "2015Q1",
+      "n_tests": 1030,
+      "flag_rate": 0.000970873786407767
+    },
+    {
+      "quarter": "2015Q2",
+      "n_tests": 292,
+      "flag_rate": 0.0
+    }
+  ]
+}

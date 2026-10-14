@@ -1,0 +1,24 @@
+# ---- 数据：不要把原始数据提交进仓库 ----
+# 用 scripts/fetch_data.py 下载（含 sha256 校验），共约 28 MB
+data/raw/*.csv
+data/raw/*.zip
+
+# 派生数据可由 python -m src.run_all 在 30 秒内完整重建，不提交以保持仓库轻量
+data/processed/*.csv.gz
+data/processed/*.parquet
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# ---- 运行产物 ----
+.mplcache/
+*.log
+.DS_Store
+.idea/
+.vscode/
