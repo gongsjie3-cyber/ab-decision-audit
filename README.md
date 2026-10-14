@@ -115,4 +115,4 @@ If you use this work, please cite both the underlying archive and this repositor
 }
 ```
 
-Released under the MIT License (code and documentation only; the data remains CC BY 4.0).
+Released under the MIT License (code and documentation only; the data remains CC BY 4.0 — see [NOTICE.md](./NOTICE.md)).

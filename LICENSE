@@ -19,9 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
--------------------------------------------------------------------------------
-注意：本许可证只覆盖本仓库的**代码与文档**。
-数据来自 Upworthy Research Archive (https://osf.io/jd64p/)，
-以 CC BY 4.0 授权，使用时必须署名（见 README 的引用格式与 CITATION.cff）。
-原始数据不随本仓库分发，请用 scripts/fetch_data.py 自行下载。
