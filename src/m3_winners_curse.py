@@ -34,6 +34,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src import boot  # noqa: E402  必须在 import matplotlib 之前导入
 import matplotlib.pyplot as plt  # noqa: E402
 from exptdecide import decision, effect, posterior  # noqa: E402
 from src.common import (PALETTE, RESULTS, SEED, Timer, dump_json, dump_table,  # noqa: E402

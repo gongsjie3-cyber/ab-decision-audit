@@ -16,6 +16,7 @@ from pathlib import Path
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
@@ -42,38 +43,78 @@ def set_cjk(run, name=CJK_FONT):
     rf.set(qn("w:hAnsi"), LATIN_FONT)
 
 
-def add_runs(par, text, base_size=10.5):
-    """处理 **粗体** 与 `代码`。"""
-    tokens = re.split(r"(\*\*.+?\*\*|`[^`]+`|\*[^*\n]+?\*)", text)
-    for tok in tokens:
+def _run(par, text, base_size=10.5, bold=False, italic=False, sub=False, sup=False, mono=False):
+    """写入一个 run，并统一处理字体（含 CJK 的 eastAsia 设置）。"""
+    if text == "":
+        return None
+    r = par.add_run(text)
+    r.bold = bold
+    r.italic = italic
+    if sub:
+        r.font.subscript = True
+    if sup:
+        r.font.superscript = True
+    if mono:
+        r.font.name = MONO
+        r.font.size = Pt(base_size - 0.5)
+        r.font.color.rgb = RGBColor(0xB0, 0x30, 0x60)
+    else:
+        set_cjk(r, CJK_FONT)
+        if r.font.size is None:
+            r.font.size = Pt(base_size)
+    return r
+
+
+# 行内标记：**粗体** / *斜体* / `代码` / <sub>下标</sub> / <sup>上标</sup> / [文字](链接)
+# 注意顺序：** 必须排在 * 之前，否则粗体会被当成两个斜体。
+_INLINE = re.compile(r"(\*\*.+?\*\*|<sub>.*?</sub>|<sup>.*?</sup>|`[^`]+`|\*[^*\n]+?\*|\[[^\]]+\]\([^)]+\))")
+
+
+def add_runs(par, text, base_size=10.5, bold=False, italic=False):
+    """递归解析行内标记。
+
+    递归是必要的：`**n<sub>ti</sub>**` 这种"下标嵌在粗体里"的写法，若只做一次
+    切分，粗体 token 会把整段（连同 <sub> 标签）一起吞掉，标签就被原样打印了。
+    """
+    for tok in _INLINE.split(text):
         if not tok:
             continue
         if tok.startswith("**") and tok.endswith("**") and len(tok) > 4:
-            r = par.add_run(tok[2:-2])
-            r.bold = True
-            set_cjk(r, CJK_FONT)
-        elif tok.startswith("*") and tok.endswith("*") and len(tok) > 2:
-            r = par.add_run(tok[1:-1])
-            r.italic = True
-            set_cjk(r, CJK_FONT)
+            add_runs(par, tok[2:-2], base_size, bold=True, italic=italic)
+        elif tok.startswith("<sub>") and tok.endswith("</sub>"):
+            _run(par, tok[5:-6], base_size, bold, italic, sub=True)
+        elif tok.startswith("<sup>") and tok.endswith("</sup>"):
+            _run(par, tok[5:-6], base_size, bold, italic, sup=True)
         elif tok.startswith("`") and tok.endswith("`") and len(tok) > 2:
-            r = par.add_run(tok[1:-1])
-            r.font.name = MONO
-            r.font.size = Pt(base_size - 0.5)
-            r.font.color.rgb = RGBColor(0xB0, 0x30, 0x60)
+            _run(par, tok[1:-1], base_size, bold, italic, mono=True)
+        elif tok.startswith("*") and tok.endswith("*") and len(tok) > 2:
+            add_runs(par, tok[1:-1], base_size, bold, italic=True)
+        elif tok.startswith("[") and "](" in tok:
+            _run(par, tok[1:tok.index("]")], base_size, bold, italic)   # 只保留链接文字
         else:
-            r = par.add_run(tok)
-            set_cjk(r, CJK_FONT)
-        if r.font.size is None:
-            r.font.size = Pt(base_size)
+            _run(par, tok, base_size, bold, italic)
 
 
 def strip_md(s):
+    s = re.sub(r"</?su[bp]>", "", s)
     s = re.sub(r"\*\*(.+?)\*\*", r"\1", s)
     s = re.sub(r"\*([^*\n]+?)\*", r"\1", s)
     s = re.sub(r"`([^`]+)`", r"\1", s)
     s = re.sub(r"\[(.+?)\]\((.+?)\)", r"\1", s)
     return s.strip()
+
+
+def set_left_border(par, color="9AA0A6", size=18, space=10):
+    """给段落加左侧竖线，用于渲染 Markdown 引用块。"""
+    pPr = par._p.get_or_add_pPr()
+    pBdr = OxmlElement("w:pBdr")
+    left = OxmlElement("w:left")
+    left.set(qn("w:val"), "single")
+    left.set(qn("w:sz"), str(size))
+    left.set(qn("w:space"), str(space))
+    left.set(qn("w:color"), color)
+    pBdr.append(left)
+    pPr.append(pBdr)
 
 
 def add_table(doc, rows):
@@ -94,7 +135,7 @@ def add_table(doc, rows):
         for i, v in enumerate(row[: len(header)]):
             cells[i].text = ""
             p = cells[i].paragraphs[0]
-            add_runs(p, strip_md(v), base_size=9.5)
+            add_runs(p, v, base_size=9.5)
     doc.add_paragraph()
 
 
@@ -170,13 +211,23 @@ def main():
             if cand.exists():
                 doc.add_picture(str(cand), width=Cm(16.4))
                 doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
-                cp = doc.add_paragraph()
-                r = cp.add_run(cap)
-                r.italic = True
-                r.font.size = Pt(9)
-                set_cjk(r)
-                cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                # 每张图的 PNG 里已经烙好了「图 N ｜ ...」标题，这里不再重复加题注，
+                # 否则 PDF 里每张图都会出现两遍标题。
                 fig_used.append(str(cand))
+            i += 1
+            continue
+        # 引用块（Markdown 的 "> ..."）
+        if line.lstrip().startswith(">"):
+            quote = re.sub(r"^\s*>\s?", "", line)
+            if not quote.strip():
+                i += 1
+                continue
+            p = doc.add_paragraph()
+            p.paragraph_format.left_indent = Cm(0.7)
+            p.paragraph_format.space_before = Pt(4)
+            p.paragraph_format.space_after = Pt(4)
+            set_left_border(p)
+            add_runs(p, quote.strip())
             i += 1
             continue
         # 正文

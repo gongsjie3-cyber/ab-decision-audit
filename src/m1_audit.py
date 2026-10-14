@@ -23,6 +23,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src import boot  # noqa: E402  必须在 import matplotlib 之前导入
 import matplotlib.pyplot as plt  # noqa: E402
 from exptdecide import srm as srm_mod  # noqa: E402
 from src.common import (BROKEN_END, BROKEN_START, PALETTE, Timer, dump_json,  # noqa: E402

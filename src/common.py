@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import json
-import os
 import time
 from pathlib import Path
+
+from src import boot  # noqa: E402  必须在 import matplotlib 之前导入
 
 import matplotlib
 matplotlib.use("Agg")
@@ -14,7 +15,7 @@ import numpy as np
 import pandas as pd
 
 # ---------------------------------------------------------------- 路径
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = boot.ROOT
 DATA_RAW = ROOT / "data" / "raw"
 DATA_PROC = ROOT / "data" / "processed"
 RESULTS = ROOT / "results"
@@ -22,10 +23,6 @@ FIGURES = ROOT / "figures"
 REPORTS = ROOT / "reports"
 for _p in (DATA_PROC, RESULTS, FIGURES, REPORTS):
     _p.mkdir(parents=True, exist_ok=True)
-
-# matplotlib 缓存放工作区（宿主 ~/.matplotlib 不可写）
-os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".mplcache"))
-(ROOT / ".mplcache").mkdir(exist_ok=True)
 
 SEED = 20240501
 
