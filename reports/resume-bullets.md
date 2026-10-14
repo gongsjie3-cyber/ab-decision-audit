@@ -9,7 +9,7 @@
 
 **在线实验决策审计：基于 9,744 个真实 A/B 实验的随机化失衡、赢家诅咒与可迁移性研究** ｜ 个人独立项目 ｜ Python
 
-- 独立构建覆盖**全部 32,485 个真实随机实验**、150,817 个实验臂、5.382 亿次曝光的端到端审计管线（原始计数 → 分层建模 → 决策评估），并沉淀为可复用 Python 包 `exptdecide`（含 9 组单元测试）。
+- 独立构建覆盖 **32,485 个真实随机实验**（档案全部实验）、150,815 个实验臂、5.383 亿次曝光的端到端审计管线（原始计数 → 分层建模 → 决策评估），并沉淀为可复用 Python 包 `exptdecide`（含 9 组单元测试）。
 - 用多项分布卡方检验 + **无先验的似然比区间扫描**，仅从曝光分配数据就自行定位出平台历史上一次未被发现的流量分流故障窗口 `2013-06-24 ~ 2014-01-12`，与官方 2024 年事后披露的 `2013-06-25 ~ 2014-01-10` 相比**精确率 98.5%、召回率 100%**，并复现出"按上线小时波动"的缓存故障特征。
 - 设计并实现**四条互相独立的 τ² 估计路径**（对照方法矩 / REML / DerSimonian–Laird / 跨实验重复投放协方差），定量刻画赢家诅咒：平台汇报的"最优方案"提升 **+32.6%** 高于事后可知的真实上限 **+29.4%**，被选中方案的真实提升仅 **+24.2%**。
 - **采用注册报告式的分析纪律**：在只使用 9,744 个实验的前提下完成全部结论与代码并冻结，随后才下载 22,741 个从未接触过的实验做纯样本外确认（不重新估参），**13 项关键指标 12 项复现**——失衡率 15.52% vs 15.21%、留一臂预测覆盖率 0.9413 vs 0.9408、赢家诅咒 +32.52% vs +32.56%、数据自行检出的故障窗口逐日相同。
@@ -19,7 +19,7 @@
 
 **在线实验决策审计（个人项目）** ｜ Python ｜ [GitHub]
 
-- 基于全部 32,485 个真实 A/B 实验（5.382 亿次曝光）构建审计管线，其中 22,741 个实验用于冻结后的样本外确认（13 项指标 12 项复现）：用卡方检验 + 无先验窗口扫描独立复现出平台的随机化失衡故障期，与官方事后披露窗口相比精确率 98.5%、召回率 100%；量化赢家诅咒（平台汇报提升 +32.6% > 真实上限 +29.4%）。
+- 基于 32,485 个真实 A/B 实验（档案全部实验，5.383 亿次曝光）构建审计管线，其中 22,741 个实验用于冻结后的样本外确认（13 项指标 12 项复现）：用卡方检验 + 无先验窗口扫描独立复现出平台的随机化失衡故障期，与官方事后披露窗口相比精确率 98.5%、召回率 100%；量化赢家诅咒（平台汇报提升 +32.6% > 真实上限 +29.4%）。
 - 用 265 个被重复投放的素材做样本外验证，发现实验内的"最优文案"优势只有 **15.5%** 能迁移到下一次投放；据此给出上线决策建议：收缩不改变"选谁"（一致率 99.84%），但能识别出 28.7% 无法区分赢家的实验，应把"上线"与"宣布胜利"分离。
 
 ---
@@ -28,7 +28,7 @@
 
 **Decision Audit of Online Experiments: Randomization Integrity, Winner's Curse and Transferability across 9,744 Real A/B Tests** | Independent project | Python
 
-- Built an end-to-end audit pipeline over **all 32,485 real randomized experiments / 150,817 arms / 538.2M impressions**, from raw exposure-click counts to deployment decisions; shipped it as a reusable Python package (`exptdecide`) with 9 unit tests. Train and holdout subsets have **zero overlapping experiment IDs**.
+- Built an end-to-end audit pipeline over **32,485 real randomized experiments / 150,815 arms / 538.3M impressions**, from raw exposure-click counts to deployment decisions; shipped it as a reusable Python package (`exptdecide`) with 9 unit tests. Train and holdout subsets have **zero overlapping experiment IDs**.
 - Recovered a previously undetected traffic-split failure window (`2013-06-24 → 2014-01-12`) **purely from impression-allocation data**, using chi-square SRM tests plus a prior-free likelihood-ratio interval scan; against the window disclosed by the archive team in 2024 this achieves **98.5% precision / 100% recall**, and reproduces the hour-of-day cache signature (SD 0.143 inside vs 0.005 outside).
 - Implemented **four independent estimators of the between-arm variance τ²** (contrast method-of-moments, REML, DerSimonian–Laird, and cross-experiment repeated-measurement covariance) to quantify the winner's curse: the lift a platform would report (**+32.6%**) exceeds even the ex-post attainable optimum (**+29.4%**), while the selected arm's true lift is only **+24.2%**.
 - **Adopted a registered-report discipline**: froze all conclusions and code using only 9,744 experiments, then downloaded 22,741 untouched experiments for a pure out-of-sample confirmation with no re-estimation — **12 of 13 key metrics replicated** (SRM rate 15.52% vs 15.21%; leave-one-arm coverage 0.9413 vs 0.9408; winner's-curse lift +32.52% vs +32.56%; the data-driven failure window matched to the day).

@@ -1,102 +1,107 @@
-# 在线实验的决策审计
+# Decision Audit of Online Experiments
 
-> 基于**全部 32,485 个真实 A/B 实验**（150,817 个实验臂 / 5.382 亿次曝光）的随机化失衡审计、赢家诅咒量化与跨投放可迁移性研究。
+**English** · [简体中文](./README.zh-CN.md)
+
+> An audit of **32,485 real A/B tests** in the Upworthy Research Archive — 150,815 experiment arms, 538.3M impressions (the full archive minus two single-arm experiments) — covering randomization integrity, the winner's curse, and cross-deployment transferability.
 >
-> 其中 9,744 个实验用于开发与结论冻结，剩余 **22,741 个实验做纯样本外确认检验**：13 项关键指标 12 项复现。
+> 9,744 experiments were used for development and then **frozen**; the remaining **22,741 were kept untouched until after the freeze** and used for pure out-of-sample confirmation — **12 of 13 key metrics replicated**.
 
-📄 **[阅读完整技术报告（PDF，20 页）](reports/report.pdf)** ｜ [简历描述](reports/resume-bullets.md) ｜ [一键复现](#快速开始)
+📄 **[Full technical report (PDF, 20 pages, Chinese)](reports/report.pdf)** · [Résumé bullets](reports/resume-bullets.md) · [Quick start](#quick-start)
 
-[![tests](https://img.shields.io/badge/unit%20tests-9%20passed-brightgreen)](#单元测试)
+[![unit tests](https://img.shields.io/badge/unit%20tests-9%20passed-brightgreen)](#quick-start)
 [![data](https://img.shields.io/badge/data-CC%20BY%204.0-blue)](https://osf.io/jd64p/)
+[![confirmatory](https://img.shields.io/badge/out--of--sample-12%2F13%20replicated-success)](#six-headline-findings)
 
 ---
 
-## 这个项目在做什么
+## What this project is about
 
-在线 A/B 测试是现代互联网公司最重要的因果推断工具，但"实验做完了、**该把哪个方案推上线**"这个决策本身很少被系统审计。本项目把研究对象锁定在这个决策上，回答三个问题：
+A/B testing is the primary causal-inference tool of the modern internet company, yet the decision that actually matters — **which variant do we ship?** — is rarely audited. This project targets that decision and asks three questions:
 
-1. **数据能不能用？** —— 随机化失衡（SRM）审计
-2. **结论有多真？** —— 效应量估计、赢家诅咒、模型样本外校准
-3. **怎么决策最好？** —— 决策规则对比、数据质量政策评估
+1. **Is the data even usable?** — sample-ratio-mismatch (SRM) auditing
+2. **How real is the result?** — effect-size estimation, the winner's curse, out-of-sample model calibration
+3. **What is the best decision rule?** — comparing deployment rules and data-quality policies under explicit loss
 
-## 五个核心发现
+Everything is reproducible from public data in about a minute.
 
-| # | 发现 | 关键数字 |
-|---|------|---------|
-| 1 | 分流失衡可被**无先验地**检出并精确定位 | 数据自行扫描出 `2013-06-24 ~ 2014-01-12`；官方 2024 年披露的窗口是 `2013-06-25 ~ 2014-01-10` → **精确率 98.5%、召回率 100%** |
-| 2 | 文案真实效应存在，且模型经得起样本外检验 | τ²=0.052；真实点击率 90% 区间 1.04%–2.18%；留一臂 95% 预测区间实测覆盖率 **94.1%** |
-| 3 | 赢家诅咒可量化，且比直觉更严重 | 平台汇报的提升 **+32.6%**，甚至高于"事后知道最优臂"的 +29.4%；被选中臂真实提升只有 **+24.2%** |
-| 4 | **"最优文案"的优势大部分不可迁移** | 同一素材换一个实验投放，只有 **15.5%** 的优势可复现；预测下一次投放的最优收缩系数 **0.14**，仅为分层模型隐含值 0.75 的 1/5 |
-| 5 | 收缩**不改变「选谁」**，但能告诉你「有多确定」 | 经验贝叶斯与「选最高 CTR」在 **99.84%** 的实验里选择完全相同；但 **28.7%** 的实验里「赢家」其实分不出来（P(best)<0.5） |
-| 6 | **全部结论在 22,741 个从未用过的实验上复现** | 失衡率 15.52% vs 15.21%；留一臂覆盖率 **0.9413 vs 0.9408**；赢家诅咒 +32.52% vs +32.56%；自行检出的窗口**逐日相同**；可迁移性样本从 285 对扩到 **1,920 对** |
+## Six headline findings
 
-另外两个可直接落地的结论：
+| # | Finding | Key numbers |
+|---|---------|-------------|
+| 1 | Randomization failures can be detected and **dated without any prior knowledge** | A prior-free likelihood-ratio scan over impression allocation alone recovers `2013-06-24 → 2014-01-12`; the archive team disclosed `2013-06-25 → 2014-01-10` in 2024 → **98.5% precision, 100% recall** |
+| 2 | Real headline effects exist, and the model survives out-of-sample checks | τ² = 0.052; 90% interval for true CTR 1.04%–2.18%; leave-one-arm posterior predictive coverage **94.1%** (nominal 95%) |
+| 3 | The winner's curse is quantifiable — and worse than intuition suggests | The lift a platform would report is **+32.6%**, higher even than the *ex-post attainable optimum* (+29.4%); the selected arm's true lift is only **+24.2%** |
+| 4 | **Most of a "winning headline"'s advantage does not transfer** *(core contribution)* | Only **15.5%** of an arm's within-test advantage replicates when the same stimulus is re-deployed in a different experiment; the MSE-optimal shrinkage factor for predicting the next deployment is **0.14**, one-fifth of the 0.75 implied by the hierarchical model |
+| 5 | Shrinkage does **not** change *which* arm you pick — it tells you *how sure you should be* | Empirical-Bayes selection and "take the highest CTR" agree in **99.84%** of experiments; yet in **28.7%** of experiments the "winner" is statistically indistinguishable from the rest (P(best) < 0.5) |
+| 6 | **Every major conclusion replicates on 22,741 untouched experiments** | SRM rate 15.52% vs 15.21%; leave-one-arm coverage **0.9413 vs 0.9408**; winner's-curse lift +32.52% vs +32.56%; the data-driven failure window matched **to the day**; transferability pairs grew from 285 to **1,920** |
 
-- **平台的人工决策劣于机械规则**：档案里人工 `first_place` 选择的期望遗憾比"选最高 CTR"高 **19%**，少捕获 3.4 个百分点的潜在收益。
-- **"检测到失衡就丢弃"缺乏依据**：四项可证伪检验（过度离散、效应量、剂量反应、决策质量）都没检出失衡实验有实质危害；丢弃的代价是照旧分析的 **6.5 倍**。
+Two further results that translate directly into practice:
 
-## 技术亮点
+- **Human override is worse than the mechanical rule.** The archive's own `first_place` decision has **19% higher** expected regret than simply taking the highest CTR, giving up 3.4 percentage points of attainable value.
+- **"Discard every experiment that fails an SRM check" is not supported by the evidence.** Four falsifiable tests (overdispersion, effect-size distribution, dose–response, decision quality) all fail to detect material harm in the flagged experiments — while discarding costs **6.5×** more than leaving them in.
 
-- **解析经验贝叶斯**：整个后验有闭式解（logit 尺度上的线性高斯共轭结构），9,744 个实验全量计算约 3 秒，无需 MCMC；`P(最优臂)` 用后验抽样并**保留臂间相关性**，`E[p|data]` 用 Gauss–Hermite 积分而非 `logistic(E[θ])`。
-- **τ² 的四条独立估计路径**：对照方法矩 / REML / DerSimonian–Laird / **重复投放协方差**，四者互为交叉验证。其中最后一条完全绕开分层模型。
-- **精确方差分解**：用 Helmert 正交对照得到恒等式 `SS_within = τ²·dof + Σ(1−1/k)v`，把臂级变异严格拆成"真实文案差异 62.8% + 抽样噪声 37.2%"。
-- **配对评价协议**：先验只在训练子样本上估计；同一实验内所有规则共用同一批后验抽样，规则比较的蒙特卡洛噪声基本抵消；τ² 做 ±2 倍敏感性分析。
-- **样本外确认设计**：开发阶段从不接触 confirmatory 子集，结论冻结后才下载并用它做纯样本外检验（13 项指标 12 项复现），方法学上等价于注册报告。
-- **9 组单元测试**覆盖最容易出错的地方（对照矩阵正交性、τ² 回收、GH 积分 vs 蒙特卡洛、后验自洽性 `E[max p] ≥ max E[p]`、收缩极限行为）。
+## Technical highlights
 
-## 快速开始
+- **Closed-form empirical Bayes.** The whole posterior is analytic (linear-Gaussian conjugacy on the logit scale): 9,744 experiments in ~3 seconds, no MCMC. `P(arm i is best)` is computed by sampling the *joint* posterior so that **between-arm correlation is preserved**, and `E[p | data]` uses Gauss–Hermite quadrature rather than the lazy `logistic(E[θ])`.
+- **Four independent estimators of τ²**: contrast method-of-moments, REML, DerSimonian–Laird, and **cross-experiment repeated-measurement covariance** — the last one bypasses the hierarchical model entirely and is therefore a genuine external check.
+- **Exact variance decomposition.** Helmert orthogonal contrasts give the identity `SS_within = τ²·dof + Σ(1−1/k)v`, splitting arm-level variation cleanly into "real headline differences, 62.8%" and "sampling noise, 37.2%".
+- **Paired evaluation protocol.** Priors are estimated on the training split only; all rules within an experiment share the same posterior draws, so Monte-Carlo noise cancels out of rule comparisons; τ² is stress-tested over ±2×.
+- **Registered-report-style discipline.** The confirmatory subset was never touched during development; it was downloaded only after every conclusion, figure and line of code had been frozen, and the confirmation step re-estimates nothing.
+- **9 unit tests** covering the places where this kind of code actually breaks: contrast orthogonality, τ² recovery from simulated data, Gauss–Hermite vs Monte Carlo, the posterior invariant `E[max p] ≥ max E[p]`, and shrinkage behaviour in both limits.
+
+## Quick start
 
 ```bash
 python -m pip install -r requirements.txt
 
-python scripts/fetch_data.py                  # 从 OSF 下载并校验数据（约 95 MB）
-python -m exptdecide.tests.test_exptdecide    # 单元测试
-python -m src.run_all                         # 全流程，约 40 秒
+python scripts/fetch_data.py                  # download + sha256-verify the data (~95 MB)
+python -m exptdecide.tests.test_exptdecide    # unit tests
+python -m src.run_all                         # full pipeline, ~1 minute
 ```
 
-全流程结束后，所有关键指标汇总在 `results/99_headline.json`，图在 `figures/`，报告在 `reports/report.md`。
+When the pipeline finishes, every headline metric is collected in `results/99_headline.json`, figures land in `figures/`, and the report is at `reports/report.pdf`.
 
-## 目录结构
+## Repository layout
 
 ```
 ab-decision-audit/
-├── exptdecide/                可复用 Python 包（技术核心）
-│   ├── srm.py                 样本比例失衡检验、BH-FDR、过度离散、名义覆盖率
-│   ├── effect.py              方差稳定化、τ² 两种估计、精确方差分解
-│   ├── posterior.py           解析高斯经验贝叶斯后验（P(best) / E[max p] / 配对遗憾）
-│   ├── decision.py            五类上线决策规则
-│   ├── power.py               样本量规划、选择准确率、纯噪声基准
-│   └── tests/                 单元测试
+├── exptdecide/                reusable Python package (the technical core)
+│   ├── srm.py                 sample-ratio-mismatch tests, BH-FDR, overdispersion
+│   ├── effect.py              variance stabilisation, two τ² estimators, exact decomposition
+│   ├── posterior.py           analytic Gaussian empirical-Bayes posterior
+│   ├── decision.py            five deployment decision rules
+│   ├── power.py               sample-size planning, selection accuracy, noise benchmark
+│   └── tests/                 unit tests
 ├── src/
-│   ├── build_dataset.py       重建实验/实验臂两级数据集
-│   ├── m6_confirmatory.py     在 22,741 个未见实验上做冻结参数的样本外确认
-│   ├── m1_audit.py            随机化失衡审计（含无先验窗口扫描）
-│   ├── m2_effects_power.py    效应量先验、功效分析、后验校准
-│   ├── m3_winners_curse.py    赢家诅咒与跨投放可迁移性
-│   ├── m4_decision_rules.py   决策规则对比（训练/留出）
-│   ├── m5_quality_audit.py    数据质量后果审计与政策评估
-│   └── run_all.py             一键复跑 + 汇总
-├── scripts/fetch_data.py      数据获取（含 sha256 校验）
-├── results/                   全部结果表与 JSON
-├── figures/                   13 张图
-└── reports/                   中文技术报告（report.pdf / .docx / .md）与简历描述
+│   ├── build_dataset.py       rebuild the experiment/arm dataset
+│   ├── m1_audit.py            randomization-integrity audit (prior-free window scan)
+│   ├── m2_effects_power.py    effect-size prior, power analysis, posterior calibration
+│   ├── m3_winners_curse.py    winner's curse and cross-deployment transferability
+│   ├── m4_decision_rules.py   rule comparison (train / holdout)
+│   ├── m5_quality_audit.py    consequences of data-quality defects, policy evaluation
+│   ├── m6_confirmatory.py     frozen-parameter out-of-sample confirmation
+│   └── run_all.py             one-command re-run + summary
+├── scripts/fetch_data.py      data acquisition with sha256 verification
+├── results/                   all result tables and JSONs
+├── figures/                   13 figures
+└── reports/                   technical report (PDF / DOCX / MD) and résumé bullets
 ```
 
-## 数据
+## Data
 
-数据来自 [Upworthy Research Archive](https://osf.io/jd64p/)（CC BY 4.0）：
+From the [Upworthy Research Archive](https://osf.io/jd64p/) (CC BY 4.0). All three subsets are public — no application required — and together they account for **all 32,487 experiments** the archive advertises. After dropping single-arm tests and zero-impression rows, the pipeline analyses **32,485 experiments / 150,815 arms / 538.3M impressions**:
 
-| 子样本 | 实验数 | 实验臂 | 曝光量 | 本项目用途 |
-|--------|--------|--------|--------|-----------|
-| exploratory | 4,873 | 22,666 | 8,100 万 | 训练（估计先验、调参） |
-| holdout | 4,871 | 22,600 | 8,072 万 | 测试（规则评估，与训练集 ID 零重叠） |
-| confirmatory | 22,743 | 105,551 | 3.765 亿 | **纯样本外确认** |
+| Subset | Experiments | Arms | Impressions | Role here |
+|--------|------------|------|-------------|-----------|
+| exploratory | 4,873 | 22,666 | 81.0M | training (prior estimation, tuning) |
+| holdout | 4,871 | 22,600 | 80.7M | testing (rule evaluation, zero ID overlap with training) |
+| confirmatory | 22,743 | 105,551 | 376.5M | **pure out-of-sample confirmation** |
 
-三个子集**均已公开**（无需申请），相加正好是官方宣称的 32,487 个实验。
+**Analysis discipline.** Modules 1-5 were completed and frozen using only the exploratory and holdout subsets. The confirmatory subset was downloaded *after* all conclusions were written, and the confirmation module re-estimates nothing. Timestamps documenting this ordering are recorded in section 9 of the technical report — the design is methodologically equivalent to a registered report.
 
-**分析纪律**：模块 1–5 的结论与代码在只使用 exploratory + holdout 时完成并冻结，confirmatory 子集是在全部结论写完之后才下载的；确认阶段只做样本外检验，不重新估计任何参数。这在方法学上等价于一份注册报告（registered report）。
+## Citation
 
-## 引用
+If you use this work, please cite both the underlying archive and this repository (see `CITATION.cff`).
 
 ```bibtex
 @article{matias2021upworthy,
@@ -109,3 +114,5 @@ ab-decision-audit/
   year    = {2021}
 }
 ```
+
+Released under the MIT License (code and documentation only; the data remains CC BY 4.0).
