@@ -1,17 +1,18 @@
 cff-version: 1.2.0
 message: "如果本仓库对你的研究或工作有帮助，请按以下格式引用。"
-title: "在线实验的决策审计：基于 9,744 个真实 A/B 实验的随机化失衡、赢家诅咒与跨投放可迁移性研究"
+title: "在线实验的决策审计：基于 32,485 个真实 A/B 实验的随机化失衡、赢家诅咒与跨投放可迁移性研究"
 abstract: >-
-  使用 Upworthy 研究档案中两个互不相交的公开子样本（9,744 个真实随机实验、
-  45,266 个实验臂、1.617 亿次曝光），构建从原始曝光-点击计数到上线决策的完整审计
-  管线。主要贡献：(1) 不借助外部信息、用统计方法独立复现并定位平台的随机化失衡
-  故障窗口；(2) 用四条独立路径估计实验内先验方差 tau^2；(3) 提出并验证"优势可迁移性"
-  视角，用重复投放素材做样本外检验，发现同一素材的优势只有约 15.5% 可迁移；
-  (4) 对比五类上线决策规则，指出经验贝叶斯收缩不改变方案选择、但能识别无法区分
-  赢家的实验；(5) 用四项可证伪检验评估数据质量缺陷的实际后果与应对政策的代价。
+  使用 Upworthy 研究档案全部三个公开子样本（32,485 个真实随机实验、150,815 个实验臂、
+  5.383 亿次曝光），构建从原始曝光-点击计数到上线决策的完整审计管线。其中 9,744 个实验
+  用于开发与结论冻结，其余 22,741 个实验在结论冻结之后才下载，用于纯样本外确认检验
+  （13 项关键指标 12 项复现）。主要贡献：(1) 不借助外部信息、用统计方法独立复现并定位
+  平台的随机化失衡故障窗口；(2) 用四条独立路径估计实验内先验方差 tau^2；(3) 提出并验证
+  「优势可迁移性」视角，用重复投放素材做样本外检验，发现同一素材的优势只有约 15.5% 可迁移；
+  (4) 对比五类上线决策规则，指出经验贝叶斯收缩不改变方案选择、但能识别无法区分赢家的实验；
+  (5) 用四项可证伪检验评估数据质量缺陷的实际后果与应对政策的代价。
 type: software
 license: MIT
-repository-code: "https://github.com/<你的用户名>/ab-decision-audit"
+repository-code: "https://github.com/gongsjie3-cyber/ab-decision-audit"
 keywords:
   - A/B testing
   - online controlled experiments
@@ -21,12 +22,10 @@ keywords:
   - decision analysis
   - replication
 authors:
-  - family-names: "<你的姓拼音>"
-    given-names: "<你的名拼音>"
-    email: "<你的邮箱>"
-    affiliation: "<你的学校 / 学院>"
+  - name: "gongsjie3-cyber"
+    website: "https://github.com/gongsjie3-cyber"
 version: "1.0.0"
-date-released: "2025-01-01"
+date-released: "2026-10-14"
 references:
   - type: article
     title: "The Upworthy Research Archive, a time series of 32,487 experiments in U.S. media"
