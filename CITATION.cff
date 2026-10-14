@@ -25,7 +25,7 @@ authors:
   - name: "gongsjie3-cyber"
     website: "https://github.com/gongsjie3-cyber"
 version: "1.0.0"
-date-released: "2026-10-14"
+date-released: "2026-08-14"
 references:
   - type: article
     title: "The Upworthy Research Archive, a time series of 32,487 experiments in U.S. media"
