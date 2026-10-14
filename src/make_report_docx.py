@@ -44,13 +44,17 @@ def set_cjk(run, name=CJK_FONT):
 
 def add_runs(par, text, base_size=10.5):
     """处理 **粗体** 与 `代码`。"""
-    tokens = re.split(r"(\*\*.+?\*\*|`[^`]+`)", text)
+    tokens = re.split(r"(\*\*.+?\*\*|`[^`]+`|\*[^*\n]+?\*)", text)
     for tok in tokens:
         if not tok:
             continue
         if tok.startswith("**") and tok.endswith("**") and len(tok) > 4:
             r = par.add_run(tok[2:-2])
             r.bold = True
+            set_cjk(r, CJK_FONT)
+        elif tok.startswith("*") and tok.endswith("*") and len(tok) > 2:
+            r = par.add_run(tok[1:-1])
+            r.italic = True
             set_cjk(r, CJK_FONT)
         elif tok.startswith("`") and tok.endswith("`") and len(tok) > 2:
             r = par.add_run(tok[1:-1])
@@ -66,6 +70,7 @@ def add_runs(par, text, base_size=10.5):
 
 def strip_md(s):
     s = re.sub(r"\*\*(.+?)\*\*", r"\1", s)
+    s = re.sub(r"\*([^*\n]+?)\*", r"\1", s)
     s = re.sub(r"`([^`]+)`", r"\1", s)
     s = re.sub(r"\[(.+?)\]\((.+?)\)", r"\1", s)
     return s.strip()

@@ -4,6 +4,8 @@
 >
 > 其中 9,744 个实验用于开发与结论冻结，剩余 **22,741 个实验做纯样本外确认检验**：13 项关键指标 12 项复现。
 
+📄 **[阅读完整技术报告（PDF，20 页）](reports/report.pdf)** ｜ [简历描述](reports/resume-bullets.md) ｜ [一键复现](#快速开始)
+
 [![tests](https://img.shields.io/badge/unit%20tests-9%20passed-brightgreen)](#单元测试)
 [![data](https://img.shields.io/badge/data-CC%20BY%204.0-blue)](https://osf.io/jd64p/)
 
@@ -77,7 +79,7 @@ ab-decision-audit/
 ├── scripts/fetch_data.py      数据获取（含 sha256 校验）
 ├── results/                   全部结果表与 JSON
 ├── figures/                   13 张图
-└── reports/                   中文技术报告（md / docx）与简历描述
+└── reports/                   中文技术报告（report.pdf / .docx / .md）与简历描述
 ```
 
 ## 数据
