@@ -6,7 +6,7 @@
 >
 > 9,744 experiments were used for development and then **frozen**; the remaining **22,741 were kept untouched until after the freeze** and used for pure out-of-sample confirmation — **12 of 13 key metrics replicated**.
 
-📄 **[Full technical report (PDF, 20 pages, Chinese)](reports/report.pdf)** · [Résumé bullets](reports/resume-bullets.md) · [Quick start](#quick-start)
+📄 **[Full technical report (PDF, 20 pages, Chinese)](reports/report.pdf)** · [Quick start](#quick-start)
 
 [![unit tests](https://img.shields.io/badge/unit%20tests-9%20passed-brightgreen)](#quick-start)
 [![data](https://img.shields.io/badge/data-CC%20BY%204.0-blue)](https://osf.io/jd64p/)
@@ -56,7 +56,7 @@ python -m pip install -r requirements.txt
 
 python scripts/fetch_data.py                  # download + sha256-verify the data (~95 MB)
 python -m exptdecide.tests.test_exptdecide    # unit tests
-python -m src.run_all                         # full pipeline, ~1 minute
+python -m src.run_all                         # full pipeline, ~45 seconds
 ```
 
 When the pipeline finishes, every headline metric is collected in `results/99_headline.json`, figures land in `figures/`, and the report is at `reports/report.pdf`.
@@ -84,7 +84,7 @@ ab-decision-audit/
 ├── scripts/fetch_data.py      data acquisition with sha256 verification
 ├── results/                   all result tables and JSONs
 ├── figures/                   13 figures
-└── reports/                   technical report (PDF / DOCX / MD) and résumé bullets
+└── reports/                   technical report (PDF / DOCX / Markdown)
 ```
 
 ## Data

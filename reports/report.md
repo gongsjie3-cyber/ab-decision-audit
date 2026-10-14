@@ -384,7 +384,8 @@ ab-decision-audit/
 ├── src/                   分析管线（0 建库 → 1 审计 → 2 效应量 → 3 可迁移性 → 4 决策 → 5 质控 → 6 样本外确认）
 ├── results/               全部结果表与 JSON（可被报告逐条引用）
 ├── figures/               13 张图
-└── scripts/fetch_data.py  数据获取（含校验）
+├── reports/               本报告（PDF / DOCX / Markdown）
+└── scripts/fetch_data.py  数据获取（含 sha256 校验）
 ```
 
 **复现**：
@@ -393,7 +394,7 @@ ab-decision-audit/
 python -m pip install -r requirements.txt
 python scripts/fetch_data.py        # 从 OSF 下载三个公开子样本（约 95 MB）
 python -m exptdecide.tests.test_exptdecide   # 单元测试
-python -m src.run_all               # 全流程，约 40 秒
+python -m src.run_all               # 全流程，约 45 秒（实测 43 秒）
 ```
 
 ---
