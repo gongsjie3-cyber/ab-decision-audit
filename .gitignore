@@ -16,6 +16,10 @@ __pycache__/
 venv/
 env/
 
+# Word 版报告：本地保留但不提交（GitHub 无法预览 .docx，点击只会触发下载；
+# 用 python -m src.make_report_docx 可随时重新生成）
+reports/report.docx
+
 # ---- 运行产物 ----
 .mplcache/
 *.log

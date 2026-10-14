@@ -61,6 +61,9 @@ python -m src.run_all                         # full pipeline, ~45 seconds
 
 When the pipeline finishes, every headline metric is collected in `results/99_headline.json`, figures land in `figures/`, and the report is at `reports/report.pdf`.
 
+> Rebuilding the Word version of the report needs the optional `python-docx` dependency:
+> `pip install python-docx && python -m src.make_report_docx` (the committed PDF does not require it).
+
 ## Repository layout
 
 ```
@@ -84,7 +87,7 @@ ab-decision-audit/
 ├── scripts/fetch_data.py      data acquisition with sha256 verification
 ├── results/                   all result tables and JSONs
 ├── figures/                   13 figures
-└── reports/                   technical report (PDF / DOCX / Markdown)
+└── reports/                   technical report (PDF / Markdown)
 ```
 
 ## Data

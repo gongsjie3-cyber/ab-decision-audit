@@ -58,6 +58,8 @@ python -m src.run_all                         # 全流程，约 45 秒
 
 全流程结束后，所有关键指标汇总在 `results/99_headline.json`，图在 `figures/`，报告在 `reports/report.pdf`。
 
+> 想重新生成 Word 版报告需要额外安装 `python-docx`：`pip install python-docx && python -m src.make_report_docx`（仓库中已提交的 PDF 不需要该依赖）。
+
 ## 目录结构
 
 ```
@@ -81,7 +83,7 @@ ab-decision-audit/
 ├── scripts/fetch_data.py      数据获取（含 sha256 校验）
 ├── results/                   全部结果表与 JSON
 ├── figures/                   13 张图
-└── reports/                   中文技术报告（report.pdf / .docx / .md）
+└── reports/                   中文技术报告（report.pdf / report.md）
 ```
 
 ## 数据
