@@ -6,7 +6,7 @@
 >
 > 其中 9,744 个实验用于开发与结论冻结，剩余 **22,741 个实验做纯样本外确认检验**：13 项关键指标 12 项复现。
 
-📄 **[阅读完整技术报告（PDF，20 页）](reports/report.pdf)** ｜ [一键复现](#快速开始)
+📄 **[阅读完整技术报告（PDF）](reports/report.pdf)** ｜ [一键复现](#快速开始)
 
 [![unit tests](https://img.shields.io/badge/unit%20tests-9%20passed-brightgreen)](#快速开始)
 [![data](https://img.shields.io/badge/data-CC%20BY%204.0-blue)](https://osf.io/jd64p/)

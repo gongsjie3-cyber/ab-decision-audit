@@ -104,6 +104,30 @@ def strip_md(s):
     return s.strip()
 
 
+def set_code_font(run, size=9.0):
+    """代码块字体：拉丁用等宽，中文回退到正文字体（等宽字体普遍无 CJK 字形）。"""
+    run.font.name = MONO
+    run.font.size = Pt(size)
+    rpr = run._element.get_or_add_rPr()
+    rf = rpr.find(qn("w:rFonts"))
+    if rf is None:
+        rf = rpr.makeelement(qn("w:rFonts"), {})
+        rpr.append(rf)
+    rf.set(qn("w:ascii"), MONO)
+    rf.set(qn("w:hAnsi"), MONO)
+    rf.set(qn("w:eastAsia"), CJK_FONT)
+
+
+def set_shading(par, fill="F2F2F2"):
+    """给段落加底色，用于渲染代码块。"""
+    pPr = par._p.get_or_add_pPr()
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:val"), "clear")
+    shd.set(qn("w:color"), "auto")
+    shd.set(qn("w:fill"), fill)
+    pPr.append(shd)
+
+
 def set_left_border(par, color="9AA0A6", size=18, space=10):
     """给段落加左侧竖线，用于渲染 Markdown 引用块。"""
     pPr = par._p.get_or_add_pPr()
@@ -162,6 +186,26 @@ def main():
         if re.fullmatch(r"-{3,}", line.strip()):
             doc.add_paragraph()
             i += 1
+            continue
+        # 代码块 —— 必须先于标题判断，否则块内以 # 开头的注释会被当成 Markdown 标题
+        if line.strip().startswith("```"):
+            i += 1
+            block = []
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                block.append(lines[i].rstrip())
+                i += 1
+            i += 1  # 跳过收尾的 ```
+            while block and not block[-1].strip():
+                block.pop()
+            for b in block:
+                cp = doc.add_paragraph()
+                cp.paragraph_format.space_before = Pt(0)
+                cp.paragraph_format.space_after = Pt(0)
+                cp.paragraph_format.left_indent = Cm(0.45)
+                cp.paragraph_format.line_spacing = 1.0
+                set_shading(cp)
+                set_code_font(cp.add_run(b if b.strip() else "\u00a0"))
+            doc.add_paragraph().paragraph_format.space_after = Pt(2)
             continue
         # 标题
         m = re.match(r"^(#{1,4})\s+(.*)$", line)

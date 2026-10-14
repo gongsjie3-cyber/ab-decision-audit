@@ -6,7 +6,7 @@
 >
 > 9,744 experiments were used for development and then **frozen**; the remaining **22,741 were kept untouched until after the freeze** and used for pure out-of-sample confirmation — **12 of 13 key metrics replicated**.
 
-📄 **[Full technical report (PDF, 20 pages, Chinese)](reports/report.pdf)** · [Quick start](#quick-start)
+📄 **[Full technical report (PDF, Chinese)](reports/report.pdf)** · [Quick start](#quick-start)
 
 [![unit tests](https://img.shields.io/badge/unit%20tests-9%20passed-brightgreen)](#quick-start)
 [![data](https://img.shields.io/badge/data-CC%20BY%204.0-blue)](https://osf.io/jd64p/)
