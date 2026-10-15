@@ -87,7 +87,7 @@ ab-decision-audit/
 ├── scripts/fetch_data.py      data acquisition with sha256 verification
 ├── results/                   all result tables and JSONs
 ├── figures/                   13 figures
-└── reports/                   technical report (PDF / Markdown)
+└── reports/                   technical report (PDF / Markdown) + one-pager (A4 PDF)
 ```
 
 ## Data

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>项目成果 · 在线实验的决策审计</title>
+<style>
+@page{size:A4;margin:11mm 12mm}
+:root{--ink:#16213a;--ink2:#41506b;--muted:#6b7994;--line:#dbe2ec;
+      --navy:#1F3864;--blue:#2471A3;--red:#C0392B;--green:#1E8449;--amber:#B7791F}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,sans-serif;
+     color:var(--ink);font-size:9.4pt;line-height:1.6;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+b{color:var(--navy)}
+.red{color:var(--red)}
+
+/* ---------- 页头 ---------- */
+header{border-bottom:2.5px solid var(--navy);padding-bottom:5px;margin-bottom:7px;
+       display:flex;justify-content:space-between;align-items:flex-end;gap:14px}
+.kick{font-size:7.6pt;letter-spacing:.2em;color:var(--blue);font-weight:700;margin-bottom:3px}
+h1{font-size:19pt;color:var(--navy);line-height:1.2;letter-spacing:-.01em}
+.en{font-size:7.8pt;color:var(--muted);margin-top:3px}
+.tagline{text-align:right;font-size:8.4pt;color:var(--ink2);line-height:1.55;min-width:52mm}
+.tagline .hl{display:block;font-size:10.6pt;color:var(--navy);font-weight:700;margin-bottom:2px}
+
+/* ---------- 一句话结论 ---------- */
+.hook{background:#f4f7fc;border-left:3.5px solid var(--navy);border-radius:0 4px 4px 0;
+      padding:5px 10px;margin-bottom:8px;font-size:9.5pt;line-height:1.55}
+.hook b{color:var(--red)}
+
+/* ---------- 区块标题 ---------- */
+h2{font-size:10.2pt;color:var(--navy);margin:0 0 5px;padding-bottom:2px;
+   border-bottom:1px solid var(--line)}
+h2 span{color:var(--blue);font-size:8pt;font-weight:700;margin-right:5px;letter-spacing:.08em}
+
+/* ---------- 核心成果 ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 13px;margin-bottom:8px}
+.item{display:flex;gap:7px;align-items:flex-start}
+.num{flex:0 0 auto;width:15px;height:15px;border-radius:50%;background:var(--navy);color:#fff;
+     font-size:7.6pt;font-weight:700;text-align:center;line-height:15px;margin-top:2px}
+.item .t{font-size:9.1pt;line-height:1.52}
+.item .t em{font-style:normal;color:var(--navy);font-weight:700}
+
+/* ---------- 图表 ---------- */
+figure{margin:0 0 8px}
+figure{text-align:center}
+figure img{width:52%;display:inline-block;border:1px solid var(--line);border-radius:3px}
+figcaption{font-size:7.8pt;color:var(--muted);margin-top:4px;line-height:1.5}
+
+/* ---------- 表格 ---------- */
+table{width:100%;border-collapse:collapse;font-size:8.4pt;margin-bottom:8px}
+th,td{border:1px solid var(--line);padding:2.6px 7px;text-align:left}
+th{background:#eef3fa;color:var(--navy);font-weight:700;font-size:8.2pt}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ---------- 交付物 ---------- */
+.deliver{border:1px solid var(--line);border-radius:4px;background:#fbfcfe;
+         padding:5px 10px;margin-bottom:8px;font-size:8.3pt;line-height:1.55}
+.deliver b{color:var(--navy)}
+.deliver .sep{color:var(--line);margin:0 6px}
+
+/* ---------- 页脚 ---------- */
+footer{border-top:1px solid var(--line);padding-top:5px;font-size:7.5pt;color:var(--muted);
+       line-height:1.55;display:flex;justify-content:space-between;gap:16px}
+footer .l{flex:1}
+footer .r{text-align:right;white-space:nowrap;color:var(--ink2)}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="kick">项目成果 · PROJECT OUTCOMES</div>
+    <h1>在线实验的决策审计</h1>
+    <div class="en">Decision Audit of Online Experiments — Randomization Integrity, Winner's Curse and Cross-Deployment Transferability</div>
+  </div>
+  <div class="tagline">
+    <span class="hl">32,485 个真实 A/B 实验</span>
+    150,815 个实验臂 · 5.38 亿次曝光<br>个人独立项目 · Python · MIT
+  </div>
+</header>
+
+<div class="hook">
+  把研究对象锁定在一个很少被审计的决策上——<b>「实验赢了，到底该不该上线？」</b>
+  结论是：平台以为赢了的方案，有 <b>28.7%</b> 其实无法区分；而赢到的优势，只有 <b>15.5%</b> 能迁移到下一次投放。
+</div>
+
+<h2><span>01</span>核心成果</h2>
+<div class="grid">
+  <div class="item"><div class="num">1</div><div class="t">
+    <em>分流失衡可被无先验地检出并定位到天。</em>仅用曝光分配数据做卡方检验 + 似然比区间扫描，自行定位出平台的随机化故障窗口 <em>2013-06-24 ~ 2014-01-12</em>，与官方 2024 年事后披露的窗口相比精确率 <em>98.5%</em>、召回率 <em>100%</em>。</div></div>
+  <div class="item"><div class="num">2</div><div class="t">
+    <em>真实效应存在，且模型经得起样本外检验。</em>τ²=0.052，真实点击率的 90% 区间为 1.04%–2.18%；留一臂后验预测的 95% 区间实测覆盖率 <em>94.1%</em>（名义 95%），后验方差无系统性偏差。</div></div>
+  <div class="item"><div class="num">3</div><div class="t">
+    <em>赢家诅咒：平台汇报的提升超过真实上限。</em>平台会汇报 <em>+32.6%</em>，高于「事后知道哪个方案最好」的 <em>+29.4%</em>；被选中方案的真实提升只有 <em>+24.2%</em>，其中约 4.4% 是选择偏差。</div></div>
+  <div class="item"><div class="num">4</div><div class="t">
+    <em class="red">（核心）「最优文案」的优势大部分无法迁移。</em>用被重复投放的素材做天然重复测量：实验内的臂间优势只有约 <em>15.5%</em> 可复现到下一次投放，最优收缩系数 <em>0.14</em>，仅为分层模型隐含值 0.75 的 1/5。</div></div>
+  <div class="item"><div class="num">5</div><div class="t">
+    <em>收缩不改变「选谁」，只告诉你「有多确定」。</em>经验贝叶斯选择与「取最高点击率」在 <em>99.84%</em> 的实验里结论相同；真正的问题是置信度——被上线方案的「最优臂后验概率」中位数仅 0.62，<em>28.7%</em> 的实验低于 0.5。</div></div>
+  <div class="item"><div class="num">6</div><div class="t">
+    <em>「检测到失衡就丢弃实验」缺乏依据。</em>四项可证伪检验（过度离散、效应量、剂量反应、决策质量）均未发现失衡实验有实质危害，而丢弃的代价是照旧分析的 <em>6.5 倍</em>（约 2,520 万次曝光）。</div></div>
+</div>
+
+<h2><span>02</span>关键图表</h2>
+<figure>
+  <img src="../figures/m1/fig01_srm_timeseries.png" alt="随机化失衡率时间序列">
+  <figcaption><b>图 1</b> ｜ 9,744 个真实 A/B 实验的随机化失衡率。数据在没有任何先验的情况下自行检出 2013-06 至 2014-01 的异常期——与官方 11 年后披露的窗口相差 1–2 天。</figcaption>
+</figure>
+
+<h2><span>03</span>样本外确认（13 项关键指标 12 项复现）</h2>
+<table>
+  <tr><th>指标</th><th class="n">开发样本（9,744 实验）</th><th class="n">confirmatory 样本外（22,741 实验）</th><th class="n">相对偏差</th></tr>
+  <tr><td>失衡率</td><td class="n">15.21%</td><td class="n">15.52%</td><td class="n">2.1%</td></tr>
+  <tr><td>留一臂 95% 预测覆盖率</td><td class="n">0.9408</td><td class="n">0.9413</td><td class="n">0.06%</td></tr>
+  <tr><td>观测提升 / 诚实提升</td><td class="n">+32.56% / +24.24%</td><td class="n">+32.52% / +23.99%</td><td class="n">0.1% / 1.0%</td></tr>
+  <tr><td>自行检出的故障窗口</td><td class="n">2013-06-24 ~ 2014-01-12</td><td class="n">2013-06-24 ~ 2014-01-12</td><td class="n">完全相同</td></tr>
+</table>
+
+<h2><span>04</span>交付物</h2>
+<div class="deliver">
+  <b>技术报告</b> 19 页 · 13 图 · 含局限与稳健性<span class="sep">｜</span><b>Python 包</b> exptdecide（9 组单元测试）<span class="sep">｜</span><b>一键复现</b> python -m src.run_all（实测 45 秒）<br>
+  <b>项目主页</b> gongsjie3-cyber.github.io/ab-decision-audit<span class="sep">｜</span><b>GitHub</b> github.com/gongsjie3-cyber/ab-decision-audit
+</div>
+
+<footer>
+  <div class="l">
+    <b>方法要点</b>：解析高斯经验贝叶斯后验（闭式解、无 MCMC）；τ² 的四条独立估计路径；Helmert 对照的精确方差分解；配对评价协议；注册报告式分析纪律。
+  </div>
+  <div class="r">
+    数据来源：Upworthy Research Archive<br>（CC BY 4.0，32,487 个实验全部公开）<br>
+    Matias et al. (2021) Scientific Data 8:155
+  </div>
+</footer>
+
+</body>
+</html>

@@ -83,7 +83,7 @@ ab-decision-audit/
 ├── scripts/fetch_data.py      数据获取（含 sha256 校验）
 ├── results/                   全部结果表与 JSON
 ├── figures/                   13 张图
-└── reports/                   中文技术报告（report.pdf / report.md）
+└── reports/                   中文技术报告（report.pdf / report.md）+ 一页纸成果卡
 ```
 
 ## 数据
