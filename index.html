@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>在线实验的决策审计 ｜ 32,485 个真实 A/B 实验</title>
+<meta name="description" content="基于 Upworthy 研究档案全部 32,485 个真实 A/B 实验，审计在线实验的上线决策：随机化失衡、赢家诅咒与跨投放可迁移性。">
+<style>
+:root{
+  --ink:#16213a; --ink2:#41506b; --muted:#6b7994; --line:#e3e8f0;
+  --navy:#1F3864; --blue:#2471A3; --red:#C0392B; --green:#1E8449;
+  --amber:#B7791F; --purple:#6C3483; --bg:#ffffff; --soft:#f7f9fc;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px; line-height:1.75; letter-spacing:.01em;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 26px}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(36,113,163,.3)}
+a:hover{border-bottom-color:var(--blue)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;background:var(--soft);
+     padding:2px 6px;border-radius:4px;color:#a03060;border:1px solid var(--line)}
+
+/* ---------- hero ---------- */
+header{background:linear-gradient(160deg,#f4f7fc 0%,#eaf0f9 55%,#e3ecf7 100%);
+       border-bottom:1px solid var(--line);padding:64px 0 52px}
+.kicker{font-size:13.5px;letter-spacing:.14em;color:var(--blue);font-weight:600;
+        text-transform:uppercase;margin:0 0 14px}
+h1{font-size:38px;line-height:1.28;margin:0 0 14px;color:var(--navy);font-weight:700;letter-spacing:-.01em}
+.sub{font-size:17.5px;color:var(--ink2);margin:0 0 8px;max-width:760px}
+.sub-en{font-size:14px;color:var(--muted);margin:0 0 30px}
+.hook{font-size:17px;color:var(--ink);background:#fff;border-left:4px solid var(--navy);
+      padding:14px 20px;border-radius:0 8px 8px 0;margin:0 0 30px;max-width:820px;
+      box-shadow:0 1px 3px rgba(22,33,58,.06)}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+      box-shadow:0 1px 3px rgba(22,33,58,.05)}
+.stat b{display:block;font-size:25px;color:var(--navy);line-height:1.25;font-weight:700}
+.stat span{font-size:13px;color:var(--muted);display:block;margin-top:3px}
+
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:none}
+h2{font-size:24px;color:var(--navy);margin:0 0 8px;font-weight:700}
+h2 .n{color:var(--blue);font-weight:600;margin-right:8px}
+.lead{color:var(--ink2);margin:0 0 28px;font-size:15.5px;max-width:820px}
+
+/* ---------- findings ---------- */
+.findings{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.card.hl{background:#fdf6f5;border-color:#f0d7d3}
+.card h3{margin:0 0 8px;font-size:16px;color:var(--navy);line-height:1.5}
+.card h3 em{font-style:normal;color:var(--red);font-weight:700}
+.card p{margin:0;font-size:14.5px;color:var(--ink2);line-height:1.7}
+.card .tag{display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:var(--navy);
+           border-radius:4px;padding:1px 8px;margin-right:8px;vertical-align:2px}
+.card.hl .tag{background:var(--red)}
+
+/* ---------- figures ---------- */
+figure{margin:0 0 30px}
+figure img{width:100%;border:1px solid var(--line);border-radius:8px;display:block}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+.figs-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+
+/* ---------- links ---------- */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+.link{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;
+      padding:18px 20px;color:var(--ink);border-bottom-width:1px}
+.link:hover{border-color:var(--blue);box-shadow:0 3px 10px rgba(36,113,163,.10)}
+.link b{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+        color:var(--navy);font-size:15.5px;margin-bottom:4px}
+.link b .arrow{flex:0 0 auto}
+.link span{font-size:13.5px;color:var(--muted);line-height:1.55;display:block}
+.link .arrow{color:var(--blue);font-weight:700}
+
+/* ---------- code + note ---------- */
+pre{background:#1b2333;color:#e6edf7;border-radius:10px;padding:18px 22px;overflow-x:auto;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.85;margin:0 0 18px}
+pre .c{color:#7d8ba6}
+.note{background:var(--soft);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;
+      padding:14px 20px;font-size:14.5px;color:var(--ink2);margin:0 0 14px}
+.note b{color:var(--ink)}
+ul.tight{margin:0;padding-left:20px;font-size:14.5px;color:var(--ink2)}
+ul.tight li{margin-bottom:7px}
+
+footer{background:var(--soft);border-top:1px solid var(--line);padding:34px 0 44px;
+       font-size:13.5px;color:var(--muted)}
+footer b{color:var(--ink2)}
+
+@media(max-width:820px){
+  header{padding:44px 0 36px} h1{font-size:28px} .sub{font-size:16px}
+  .stats{grid-template-columns:1fr 1fr} .findings,.figs-2,.links{grid-template-columns:1fr}
+  section{padding:40px 0} .wrap{padding:0 18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="kicker">Data Science · Causal Inference · Decision Analysis</p>
+    <h1>在线实验的决策审计</h1>
+    <p class="sub">基于 <b>32,485 个真实 A/B 实验</b>（150,815 个实验臂 / 5.38 亿次曝光），审计一件很少被审计的事：<b>实验赢了，到底该不该上线？</b></p>
+    <p class="sub-en">Decision Audit of Online Experiments — Randomization Integrity, Winner's Curse and Cross-Deployment Transferability</p>
+    <p class="hook">平台以为赢了的方案，有 <b>28.7%</b> 其实根本分不出来；而赢到的优势，只有 <b>15.5%</b> 能迁移到下一次投放。</p>
+
+    <div class="stats">
+      <div class="stat"><b>32,485</b><span>真实随机实验</span></div>
+      <div class="stat"><b>5.38 亿</b><span>累计曝光量</span></div>
+      <div class="stat"><b>12/13</b><span>样本外复现的指标</span></div>
+      <div class="stat"><b>45 秒</b><span>一键复现全流程</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2><span class="n">01</span>六个核心发现</h2>
+  <p class="lead">全部结论可在本仓库一键复现（<code>python -m src.run_all</code>，约 45 秒）。</p>
+  <div class="findings">
+
+    <div class="card">
+      <h3><span class="tag">审计</span>分流失衡可被<b>无先验地</b>检出并定位到天</h3>
+      <p>仅用曝光分配数据做卡方检验 + 似然比区间扫描，自行定位出平台历史上的随机化故障窗口 <code>2013-06-24 ~ 2014-01-12</code>，与官方 2024 年事后披露的窗口相比<b>精确率 98.5%、召回率 100%</b>。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="tag">校准</span>真实效应存在，且模型经得起样本外检验</h3>
+      <p>τ² = 0.052，真实点击率的 90% 区间为 1.04%–2.18%；留一臂后验预测的 95% 区间<b>实测覆盖率 94.1%</b>（名义 95%），说明后验方差没有被高估或低估。</p>
+    </div>
+
+    <div class="card hl">
+      <h3><span class="tag">核心</span>赢家诅咒：平台汇报的提升<b>超过真实上限</b></h3>
+      <p>平台会汇报的提升是 <b>+32.6%</b>，甚至高于“事后知道哪个方案最好”的 <b>+29.4%</b>；被选中方案的真实提升只有 <b>+24.2%</b>。观测值里约 4.4% 是选择偏差。</p>
+    </div>
+
+    <div class="card hl">
+      <h3><span class="tag">核心</span>“最优文案”的优势，大部分<b>无法迁移</b></h3>
+      <p>用被重复投放的素材做天然重复测量：实验内的臂间优势只有约 <b>15.5%</b> 能复现到下一次投放。预测下一次投放的最优收缩系数是 <b>0.14</b>，仅为分层模型隐含值 0.75 的 1/5。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="tag">反直觉</span>收缩<b>不改变“选谁”</b>，只告诉你“有多确定”</h3>
+      <p>经验贝叶斯选择与“取最高点击率”在 <b>99.84%</b> 的实验里结论完全相同。真正的问题是置信度：被上线方案的“最优臂后验概率”中位数仅 0.62，<b>28.7%</b> 的实验低于 0.5——等于掷硬币，而平台全部上线了。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="tag">政策</span>“检测到失衡就丢弃实验”<b>缺乏依据</b></h3>
+      <p>四项可证伪检验（过度离散、效应量、剂量反应、决策质量）均未发现失衡实验有实质危害，而丢弃的代价是照旧分析的 <b>6.5 倍</b>（约 2,520 万次曝光）。</p>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">02</span>关键图表</h2>
+  <p class="lead">完整 13 张图与技术报告见页面底部链接。</p>
+
+  <figure>
+    <img src="figures/m1/fig01_srm_timeseries.png" alt="随机化失衡率时间序列">
+    <figcaption><b>图 1</b> ｜ 9,744 个真实 A/B 实验的随机化失衡率。数据在没有任何先验的情况下，自行检出 2013-06 至 2014-01 的异常期——与官方 11 年后披露的窗口相差 1–2 天。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/m3/fig08_transferability.png" alt="跨投放可迁移性">
+    <figcaption><b>图 8</b> ｜ 跨投放验证：实验内“最优”的优势大部分无法迁移到下一次投放，最优收缩系数远小于分层模型隐含值。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/m4/fig09_decision_rules.png" alt="决策规则对比">
+    <figcaption><b>图 9</b> ｜ 决策规则对比：收缩不改变“选谁”，但能识别出无法区分赢家的实验。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/m6/fig13_confirmatory_replication.png" alt="样本外确认">
+    <figcaption><b>图 13</b> ｜ 在 22,741 个<strong>从未使用过</strong>的实验上做确认性检验：13 项关键指标 12 项复现。开发阶段从不接触这批数据。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2><span class="n">03</span>方法与可信度</h2>
+  <ul class="tight">
+    <li><b>解析经验贝叶斯</b>：后验在 logit 尺度上有闭式解，9,744 个实验约 3 秒算完，无需 MCMC；<code>P(最优臂)</code> 保留臂间相关性，<code>E[p|data]</code> 用 Gauss–Hermite 积分而非 <code>logistic(E[θ])</code>。</li>
+    <li><b>τ² 的四条独立估计路径</b>：对照方法矩 / REML / DerSimonian–Laird / 跨实验重复投放协方差，互为交叉验证；最后一条完全绕开分层模型。</li>
+    <li><b>精确方差分解</b>：用 Helmert 正交对照得到恒等式 <code>SS_within = τ²·dof + Σ(1−1/k)v</code>，把臂级变异严格拆成“真实文案差异 62.8% + 抽样噪声 37.2%”。</li>
+    <li><b>配对评价协议</b>：先验只在训练子样本上估计；同一实验内所有规则共用同一批后验抽样，规则比较的蒙特卡洛噪声基本抵消；τ² 做 ±2 倍敏感性分析。</li>
+    <li><b>注册报告式分析纪律</b>：结论、代码、图表全部完成并冻结之后，才下载 confirmatory 子集做纯样本外确认，确认阶段不重新估计任何参数。</li>
+    <li><b>9 组单元测试</b> 覆盖最容易出错的地方：对照矩阵正交性、τ² 回收、GH 积分 vs 蒙特卡洛、后验自洽性 <code>E[max p] ≥ max E[p]</code>、收缩极限行为。</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">04</span>交付物</h2>
+  <div class="links">
+    <a class="link" href="reports/report.pdf">
+      <b>技术报告 PDF <span class="arrow">→</span></b>
+      <span>完整方法、13 张图与全部结果表，含局限与稳健性讨论</span>
+    </a>
+    <a class="link" href="https://github.com/gongsjie3-cyber/ab-decision-audit">
+      <b>GitHub 仓库 <span class="arrow">→</span></b>
+      <span>全部源码、结果表与图表，支持一键复现</span>
+    </a>
+    <a class="link" href="https://osf.io/jd64p/">
+      <b>数据来源 <span class="arrow">→</span></b>
+      <span>Upworthy Research Archive（CC BY 4.0），32,487 个实验全部公开</span>
+    </a>
+  </div>
+
+  <h2 style="margin-top:44px;font-size:19px">复制一份并跑通</h2>
+  <pre><span class="c"># 依赖：Python 3.10+，仅需 numpy / pandas / scipy / matplotlib</span>
+git clone git@github.com:gongsjie3-cyber/ab-decision-audit.git
+cd ab-decision-audit
+python -m pip install -r requirements.txt
+
+python scripts/fetch_data.py       <span class="c"># 下载并校验数据（约 95 MB）</span>
+python -m src.run_all              <span class="c"># 全流程，约 45 秒</span></pre>
+  <p class="lead" style="margin-bottom:0">全流程结束后，所有关键指标汇总在 <code>results/99_headline.json</code>，图在 <code>figures/</code>。全新克隆实测：130 项指标与作者本地逐位一致。</p>
+</section>
+
+<section>
+  <h2><span class="n">05</span>已知局限</h2>
+  <div class="note">
+    <b>评价基准依赖模型。</b>期望遗憾用经验贝叶斯后验计算，而非可观测的真值。我们用四重防御（留一臂覆盖率、τ² 敏感性分析、模型外的重复投放验证、22,741 个实验的样本外复现）来缓解，但“惩罚函数是后验的”这一批评无法完全消除。
+  </div>
+  <div class="note">
+    <b>重复投放子样本存在选择偏差。</b>被重复投放的素材平均点击率 2.76%（其他 1.55%），61.7% 位于故障窗口内。三种粒度（素材 / slug / 标题）给出一致结论作为缓解，但该偏差必须披露。
+  </div>
+  <div class="note">
+    <b>单一平台、单一领域。</b>结论是关于“新闻标题 A/B 测试”的，外推到推荐、定价、增长实验需要额外验证；但本项目的方法论（无先验窗口扫描、四条 τ² 估计路径、重复投放可迁移性检验、配对决策规则评价）与领域无关，可直接搬运。
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 8px"><b>在线实验的决策审计</b> ｜ 个人独立项目 ｜ Python ｜ MIT License（代码与文档）</p>
+    <p style="margin:0 0 8px">数据来自 <a href="https://osf.io/jd64p/">Upworthy Research Archive</a>，以 CC BY 4.0 授权，数据本身不在本仓库分发。</p>
+    <p style="margin:0">Matias, J., Munger, K., Aubin Le Quere, M., &amp; Ebersole, C. (2021). <i>The Upworthy Research Archive, a time series of 32,487 experiments in U.S. media.</i> Scientific Data, 8(1), 155.</p>
+  </div>
+</footer>
+
+</body>
+</html>
